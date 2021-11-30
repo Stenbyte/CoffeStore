@@ -4,12 +4,9 @@ import Header from "./components/header/Header";
 import { useState } from "react";
 
 function App() {
+  let Api = process.env.REACT_APP_API_KEY;
   const [user, setUser] = useState(
-    JSON.parse(
-      sessionStorage.getItem(
-        "firebase:authUser:AIzaSyBwn84bG5mccscURCBdFJJ8c10Y9ee5WsI:[DEFAULT]"
-      )
-    )
+    JSON.parse(sessionStorage.getItem(`firebase:authUser:${Api}:[DEFAULT]`))
   );
   console.log(user);
   return <div className="App">{user ? <Header /> : <Login />}</div>;
