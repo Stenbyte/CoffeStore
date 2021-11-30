@@ -1,13 +1,26 @@
 import React from "react";
 import styled from "styled-components";
+import { getAuth, signOut } from "firebase/auth";
 
 export default function Header() {
+  const auth = getAuth();
+  const logOut = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
   return (
     <Card>
       <Logo>Logo</Logo>
       <Wrapper>
         <Button>Cart</Button>
-        <Button cart>LogOut</Button>
+        <Button cart onClick={logOut}>
+          LogOut
+        </Button>
       </Wrapper>
     </Card>
   );

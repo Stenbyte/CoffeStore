@@ -1,24 +1,87 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  setPersistence,
+  browserSessionPersistence,
+} from "firebase/auth";
+import { app } from "../../firebase";
 
 export default function Login() {
   const [text, setText] = useState(true);
+  const [loading, setLoading] = useState(false);
   const mailRef = useRef();
   const passwordRef = useRef();
+  const auth = getAuth();
+  let email;
+  let password;
+  let persist;
+  console.log(app.automaticDataCollectionEnabled);
   const textHandler = () => {
     setText(!text);
   };
-  const submitHandler = (e) => {
+  // Creating sessionStorage
+  useEffect(() => {
+    if (loading) {
+      persist = setPersistence(auth, browserSessionPersistence)
+        .then(() => {
+          return signInWithEmailAndPassword(auth, email, password);
+        })
+        .catch((error) => {
+          // Handle Errors here.
+
+          const errorMessage = error.message;
+          alert(errorMessage);
+        });
+    }
+  }, [loading]);
+
+  const submitHandler = async (e) => {
     e.preventDefault();
-    let password = passwordRef.current.value;
-    let email = mailRef.current.value;
+    password = passwordRef.current?.value;
+    email = mailRef.current?.value;
+    // validating refs
     if (!email.includes("@") || password.length < 5) {
       alert(
         "email adress should include @, password length more than 5 charecters"
       );
     } else {
-      console.log(email);
-      console.log(password);
+      if (text) {
+        // Login
+        setLoading(true);
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            console.log(user);
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(errorMessage);
+          });
+        await persist;
+        setLoading(false);
+      } else {
+        //creating new account
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            console.log(user);
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(errorMessage);
+            // ..
+          });
+        await persist;
+      }
     }
   };
   return (
@@ -28,7 +91,7 @@ export default function Login() {
           <Title>{text ? "LOGIN" : "SIGN UP"}</Title>
           <Label htmlFor="name">Email*</Label>
           <input
-            type="text"
+            type="email"
             placeholder="Enter email"
             id="name"
             ref={mailRef}
