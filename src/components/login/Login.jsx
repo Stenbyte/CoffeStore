@@ -8,75 +8,90 @@ import {
   browserSessionPersistence,
 } from "firebase/auth";
 import { app } from "../../firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { userAction } from "../../store/userSlice";
 
 export default function Login() {
   const [text, setText] = useState(true);
-  //   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  //   const loading = useSelector((state) => state.user.load);
   const mailRef = useRef();
   const passwordRef = useRef();
   const auth = getAuth();
   let email;
   let password;
-
-  //   console.log(app.automaticDataCollectionEnabled);
+  let valid;
+  console.log("app", app.automaticDataCollectionEnabled);
+  // Changing LogIn || Sign UP
   const textHandler = () => {
     setText(!text);
   };
 
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
     password = passwordRef.current?.value;
     email = mailRef.current?.value;
-    // Creating sessionStorage
-    let persist = setPersistence(auth, browserSessionPersistence)
-      .then(() => {
-        return signInWithEmailAndPassword(auth, email, password);
-      })
-      .catch((error) => {
-        // Handle Errors here.
-
-        const errorMessage = error.message;
-        alert(errorMessage);
-      });
     // validating refs
-    if (!email.includes("@") || password.length < 5) {
+    valid = email.includes("@") || password < 5;
+    if (!valid) {
       alert(
         "email adress should include @, password length more than 5 charecters"
       );
-      return;
     } else {
-      if (text) {
+      if (text && valid) {
         // Login
-
         signInWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
             console.log(user);
+            // Dispatch token
+            dispatch(
+              userAction.logIn({
+                token: user.accessToken,
+                load: false,
+              })
+            );
+            // creating session storage for loading LogIn & LogOut
+            sessionStorage.setItem("load", false);
             // ...
           })
           .catch((error) => {
-            const errorCode = error.code;
             const errorMessage = error.message;
             alert(errorMessage);
           });
-        await persist;
-      } else {
+        // Creating sessionStorage for user
+        setPersistence(auth, browserSessionPersistence)
+          .then(() => {
+            return signInWithEmailAndPassword(auth, email, password);
+          })
+          .catch((error) => {
+            // Handle Errors here.
+            const errorMessage = error.message;
+            alert(errorMessage);
+          });
+      } else if (valid) {
         //creating new account
         createUserWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            console.log(user);
+            // Dispatch token
+            dispatch(
+              userAction.logIn({
+                token: user.accessToken,
+                load: false,
+              })
+            );
+            // creating session storage for loading LogIn & LogOut
+            sessionStorage.setItem("load", false);
             // ...
           })
           .catch((error) => {
-            const errorCode = error.code;
             const errorMessage = error.message;
             alert(errorMessage);
             // ..
           });
-        await persist;
       }
     }
   };
