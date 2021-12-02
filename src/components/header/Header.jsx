@@ -4,7 +4,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { userAction } from "../../store/userSlice";
 import { data } from "../../data";
-import { current } from "@reduxjs/toolkit";
+
 export default function Header() {
   const [slide, setSlide] = useState(0);
   const auth = getAuth();
@@ -29,7 +29,7 @@ export default function Header() {
   };
   const slideHandler = (way) => {
     way === "left"
-      ? setSlide(slide > 0 ? slide - 1 : 2)
+      ? setSlide(slide > 0 ? slide - 1 : data.length - 1)
       : setSlide(slide < data.length - 1 ? slide + 1 : 0);
   };
   return (
@@ -43,37 +43,29 @@ export default function Header() {
           </Button>
         </Wrapper>
       </Card>
-      <ImgCard style={{ transform: `translateX(-${slide * 100}vw)` }}>
-        {data.map((img) => (
-          <ImgSlider key={img.id}>
-            <img src={img.img} alt="" />
-          </ImgSlider>
+      <ImgCard>
+        {data.map((img, i) => (
+          <>
+            <ImgSlider
+              key={img.id}
+              style={{ transform: `translateX(${(i - slide) * 100}%)` }}
+            >
+              <img src={img.img} alt="" />
+            </ImgSlider>
+            <p className="left" onClick={() => slideHandler("left")}>
+              Left
+            </p>
+            <p className="right" onClick={() => slideHandler()}>
+              Right
+            </p>
+          </>
         ))}
       </ImgCard>
-      <p className="left" onClick={() => slideHandler("left")}>
-        Left
-      </p>
-      <p className="right" onClick={() => slideHandler()}>
-        Right
-      </p>
     </Container>
   );
 }
 
-const Container = styled.div`
-  position: relative;
-  .left,
-  .right {
-    position: absolute;
-  }
-  .left {
-    top: 10rem;
-  }
-  .right {
-    top: 10rem;
-    right: 10rem;
-  }
-`;
+const Container = styled.div``;
 
 const Card = styled.div`
   background-color: var(--main);
@@ -105,28 +97,40 @@ const Button = styled.button`
   }
 `;
 const ImgCard = styled.div`
-  height: calc(70vh - 10vh);
-  background-color: red;
+  height: calc(100vh - 10vh);
   margin-top: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  left: 0;
-  transition: all 1s ease;
+  max-width: 100vw;
+  /* transform: scale(0.4); */
+  /* overflow: hidden; */
+  position: relative;
+  .left,
+  .right {
+    position: absolute;
+  }
+  .left {
+    top: 10rem;
+    left: 1rem;
+  }
+  .right {
+    top: 10rem;
+    right: 1rem;
+  }
 `;
 const ImgSlider = styled.div`
-  background-color: white;
-  height: 20rem;
-  margin: 0 1rem;
-  width: 100vw;
   display: flex;
   align-items: center;
-  /* position: absolute;
-  left: 0; */
   justify-content: center;
+  padding: 1rem;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  height: 50vh;
+  background-color: red;
+  transition: all 1s ease;
+
   img {
-    width: 5rem;
-    height: 5rem;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `;

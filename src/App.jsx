@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 function App() {
-  let Api = process.env.REACT_APP_API_KEY;
+  // let Api = process.env.REACT_APP_API_KEY;
   const [user, setUser] = useState(true);
   const load = useSelector((state) => state.user.load);
 
@@ -18,7 +18,7 @@ function App() {
     }
     // console.log(user1);
     console.log("user", user);
-  }, []);
+  }, [user]);
   return <div className="App">{user && load ? <Login /> : <Header />}</div>;
 }
 
