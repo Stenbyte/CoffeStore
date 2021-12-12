@@ -48,10 +48,30 @@ export default function Slider() {
           <Typo>
             <p>{text}</p>
           </Typo>
-          <Dots data-slide={0} left="47%" onClick={dotHandler}></Dots>
-          <Dots data-slide={1} left="49%" onClick={dotHandler}></Dots>
-          <Dots data-slide={2} left="51%" onClick={dotHandler}></Dots>
-          <Dots data-slide={3} left="53%" onClick={dotHandler}></Dots>
+          <Dots
+            data-slide={0}
+            left="47%"
+            onClick={dotHandler}
+            active={slide === 0}
+          ></Dots>
+          <Dots
+            data-slide={1}
+            left="49%"
+            onClick={dotHandler}
+            active={slide === 1}
+          ></Dots>
+          <Dots
+            data-slide={2}
+            left="51%"
+            onClick={dotHandler}
+            active={slide === 2}
+          ></Dots>
+          <Dots
+            data-slide={3}
+            left="53%"
+            onClick={dotHandler}
+            active={slide === 3}
+          ></Dots>
           <img
             src={left}
             alt=""
