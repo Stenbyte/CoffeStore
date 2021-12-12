@@ -29,6 +29,11 @@ export default function Slider() {
     default:
       break;
   }
+  //Dot handler
+  const dotHandler = (e) => {
+    let { slide } = e.target.dataset;
+    setSlide(+slide);
+  };
 
   return (
     <ImgCard>
@@ -43,6 +48,10 @@ export default function Slider() {
           <Typo>
             <p>{text}</p>
           </Typo>
+          <Dots data-slide={0} left="47%" onClick={dotHandler}></Dots>
+          <Dots data-slide={1} left="49%" onClick={dotHandler}></Dots>
+          <Dots data-slide={2} left="51%" onClick={dotHandler}></Dots>
+          <Dots data-slide={3} left="53%" onClick={dotHandler}></Dots>
           <img
             src={left}
             alt=""
@@ -95,6 +104,15 @@ const Typo = styled.div`
     font-weight: 300;
     z-index: 100;
   }
+`;
+const Dots = styled.div`
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  position: absolute;
+  top: 50%;
+  left: ${(props) => props.left};
+  background-color: ${(props) => (props.active ? "var(--green)" : "white")};
 `;
 const ImgSlider = styled.div`
   display: flex;
