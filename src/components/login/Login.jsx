@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import {
   getAuth,
@@ -8,13 +8,12 @@ import {
   browserSessionPersistence,
 } from "firebase/auth";
 import { app } from "../../firebase";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { userAction } from "../../store/userSlice";
 
 export default function Login() {
   const [text, setText] = useState(true);
   const dispatch = useDispatch();
-  //   const loading = useSelector((state) => state.user.load);
   const mailRef = useRef();
   const passwordRef = useRef();
   const auth = getAuth();

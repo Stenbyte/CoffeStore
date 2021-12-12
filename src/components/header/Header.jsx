@@ -30,7 +30,9 @@ export default function Header() {
   return (
     <Container>
       <Card>
-        <Logo>Logo</Logo>
+        <Logo>
+          <img src="/beens.png" alt="" />
+        </Logo>
         <Wrapper>
           <Button>Cart</Button>
           <Button cart onClick={logOut}>
@@ -59,7 +61,10 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `;
 const Logo = styled.div`
-  color: whitesmoke;
+  cursor: pointer;
+  img {
+    width: 42px;
+  }
 `;
 const Button = styled.button`
   padding: 0.5rem;
