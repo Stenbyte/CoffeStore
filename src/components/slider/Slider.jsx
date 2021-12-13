@@ -15,10 +15,10 @@ export default function Slider() {
   let text;
   switch (slide) {
     case 0:
-      text = "Drink Fresh";
+      text = "Drink Freshly";
       break;
     case 1:
-      text = "Galvanizing";
+      text = "Brewed";
       break;
     case 2:
       text = "Coffee";
@@ -38,7 +38,7 @@ export default function Slider() {
   return (
     <ImgCard>
       {data.map((img, i) => (
-        <>
+        <React.Fragment key={img.id}>
           <ImgSlider
             key={img.id}
             style={{ transform: `translateX(${(i - slide) * 100}%)` }}
@@ -84,13 +84,13 @@ export default function Slider() {
             className="right"
             onClick={() => slideHandler()}
           />
-        </>
+        </React.Fragment>
       ))}
     </ImgCard>
   );
 }
 const ImgCard = styled.div`
-  height: calc(100vh - 10vh);
+  height: calc(60vh - 10vh);
   margin-top: 1rem;
   max-width: 100vw;
   /* transform: scale(0.4); */
@@ -101,20 +101,20 @@ const ImgCard = styled.div`
     position: absolute;
   }
   .left {
-    top: 23%;
+    top: 43%;
     left: 1.2rem;
-    width: 4rem;
+    width: 3.5rem;
     filter: invert(1);
   }
   .right {
-    top: 23%;
+    top: 43%;
     right: 1.2rem;
-    width: 4rem;
+    width: 3.5rem;
     filter: invert(1);
   }
 `;
 const Typo = styled.div`
-  width: 20rem;
+  min-width: 20rem;
   position: absolute;
   top: 23%;
   left: 49vw;
@@ -130,7 +130,7 @@ const Dots = styled.div`
   height: 15px;
   border-radius: 3px;
   position: absolute;
-  top: 50%;
+  top: 90%;
   left: ${(props) => props.left};
   background-color: ${(props) => (props.active ? "var(--green)" : "white")};
 `;

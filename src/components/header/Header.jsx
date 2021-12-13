@@ -4,6 +4,9 @@ import { getAuth, signOut } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { userAction } from "../../store/userSlice";
 import Slider from "../slider/Slider";
+import { Link } from "react-router-dom";
+import { category } from "../../data";
+import { Outlet, useSearchParams } from "react-router-dom";
 
 export default function Header() {
   const auth = getAuth();
@@ -26,12 +29,27 @@ export default function Header() {
     // Clearing session Storage
     sessionStorage.clear();
   };
+  // Link styling if Active
+  function CatLink({ name, children }) {
+    let [searchParams] = useSearchParams();
+    let isActive = searchParams.get("cat") === name;
 
+    return (
+      <Link
+        to={`/?cat=${name}`}
+        style={{ color: isActive ? `var(--green)` : `var(--main)` }}
+      >
+        {children}
+      </Link>
+    );
+  }
   return (
     <Container>
       <Card>
         <Logo>
-          <img src="/beens.png" alt="" />
+          <Link to="/">
+            <img src="/beens.png" alt="" />
+          </Link>
         </Logo>
         <Wrapper>
           <Button>Cart</Button>
@@ -41,6 +59,18 @@ export default function Header() {
         </Wrapper>
       </Card>
       <Slider />
+      <ul>
+        <h3>Filter by category</h3>
+        <li>
+          <Link to="/">All</Link>
+        </li>
+        {category.map((cat) => (
+          <li key={cat.id}>
+            <CatLink name={cat.name}>{cat.name}</CatLink>
+          </li>
+        ))}
+      </ul>
+      <Outlet />
     </Container>
   );
 }

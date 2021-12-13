@@ -21,3 +21,30 @@ export const data = [
     img: img4,
   },
 ];
+
+export const category = [
+  {
+    id: 1,
+    name: "maker",
+    price: "20$",
+  },
+  {
+    id: 2,
+    name: "beans",
+    price: "30$",
+  },
+  {
+    id: 3,
+    name: "cup",
+    price: "40$",
+  },
+  {
+    id: 4,
+    name: "machine",
+    price: "120$",
+  },
+];
+
+export function filterByCategory(name) {
+  return category.filter((cat) => cat.name === name);
+}
