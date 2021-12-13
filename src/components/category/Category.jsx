@@ -6,7 +6,6 @@ export default function Category() {
   let [searchParams] = useSearchParams();
   let search = searchParams.get("cat");
   const list = React.useMemo(() => {
-    console.log("run");
     if (!search) return category;
     return filterByCategory(search);
   }, [search]);

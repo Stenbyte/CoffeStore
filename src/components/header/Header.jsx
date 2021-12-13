@@ -37,7 +37,7 @@ export default function Header() {
     return (
       <Link
         to={`/?cat=${name}`}
-        style={{ color: isActive ? `var(--green)` : `var(--main)` }}
+        style={{ color: isActive ? `var(--violet)` : `var(--third)` }}
       >
         {children}
       </Link>
@@ -59,17 +59,17 @@ export default function Header() {
         </Wrapper>
       </Card>
       <Slider />
-      <ul>
-        <h3>Filter by category</h3>
+      <UL>
+        <h3>Filter by category:</h3>
         <li>
-          <Link to="/">All</Link>
+          <Link to="/">ALL</Link>
         </li>
         {category.map((cat) => (
           <li key={cat.id}>
-            <CatLink name={cat.name}>{cat.name}</CatLink>
+            <CatLink name={cat.name}>{cat.name.toUpperCase()}</CatLink>
           </li>
         ))}
-      </ul>
+      </UL>
       <Outlet />
     </Container>
   );
@@ -85,17 +85,18 @@ const Card = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
-const Wrapper = styled.div`
-  width: 25vw;
-  display: flex;
-  justify-content: space-between;
-`;
 const Logo = styled.div`
   cursor: pointer;
   img {
     width: 42px;
   }
 `;
+const Wrapper = styled.div`
+  width: 25vw;
+  display: flex;
+  justify-content: space-between;
+`;
+
 const Button = styled.button`
   padding: 0.5rem;
   border: none;
@@ -107,5 +108,31 @@ const Button = styled.button`
   &:active {
     box-shadow: inset 0px 1px 1px var(--main), inset 1px 0px 1px var(--main),
       inset 0 -1px 2px var(--main), inset -1px 0 2px var(--main);
+  }
+`;
+const UL = styled.ul`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 45vw;
+  margin: 0.3rem 0 1rem 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  list-style-type: none;
+  background-color: var(--second);
+  h3 {
+    color: var(--main);
+    font-weight: 400;
+  }
+  li {
+    color: var(--third);
+    a {
+      color: var(--third);
+      text-decoration: none;
+      letter-spacing: 2px;
+      &:focus {
+        color: var(--violet);
+      }
+    }
   }
 `;

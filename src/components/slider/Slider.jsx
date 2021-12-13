@@ -130,7 +130,7 @@ const Dots = styled.div`
   height: 15px;
   border-radius: 3px;
   position: absolute;
-  top: 90%;
+  top: 88%;
   left: ${(props) => props.left};
   background-color: ${(props) => (props.active ? "var(--green)" : "white")};
 `;
