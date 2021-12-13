@@ -11,7 +11,6 @@ import { Outlet, useSearchParams } from "react-router-dom";
 export default function Header() {
   const auth = getAuth();
   const dispatch = useDispatch();
-  console.log(names);
   const logOut = () => {
     signOut(auth)
       .then(() => {
@@ -70,7 +69,9 @@ export default function Header() {
             <CatLink name={cat}>{cat.toUpperCase()}</CatLink>
           </li>
         ))}
+        <Span>Created By: Sten Scheifel</Span>
       </UL>
+
       <Outlet />
     </Container>
   );
@@ -120,6 +121,7 @@ const UL = styled.ul`
   padding: 1rem;
   border-radius: 10px;
   list-style-type: none;
+  position: relative;
   background-color: var(--second);
   h3 {
     color: var(--main);
@@ -136,4 +138,10 @@ const UL = styled.ul`
       }
     }
   }
+`;
+const Span = styled.span`
+  position: absolute;
+  top: 3%;
+  right: -53vw;
+  font-weight: 300;
 `;
