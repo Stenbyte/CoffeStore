@@ -5,12 +5,13 @@ import { useDispatch } from "react-redux";
 import { userAction } from "../../store/userSlice";
 import Slider from "../slider/Slider";
 import { Link } from "react-router-dom";
-import { category } from "../../data";
+import { names } from "../../data";
 import { Outlet, useSearchParams } from "react-router-dom";
 
 export default function Header() {
   const auth = getAuth();
   const dispatch = useDispatch();
+  console.log(names);
   const logOut = () => {
     signOut(auth)
       .then(() => {
@@ -64,9 +65,9 @@ export default function Header() {
         <li>
           <Link to="/">ALL</Link>
         </li>
-        {category.map((cat) => (
-          <li key={cat.id}>
-            <CatLink name={cat.name}>{cat.name.toUpperCase()}</CatLink>
+        {names.map((cat) => (
+          <li key={cat}>
+            <CatLink name={cat}>{cat.toUpperCase()}</CatLink>
           </li>
         ))}
       </UL>
