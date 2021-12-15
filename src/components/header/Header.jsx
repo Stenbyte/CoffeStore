@@ -7,6 +7,7 @@ import Slider from "../slider/Slider";
 import { Link } from "react-router-dom";
 import { names } from "../../data";
 import { Outlet, useSearchParams } from "react-router-dom";
+import cart from "../../img/cart.png";
 
 export default function Header() {
   const auth = getAuth();
@@ -52,9 +53,16 @@ export default function Header() {
           </Link>
         </Logo>
         <Wrapper>
-          <Button>Cart</Button>
-          <Button cart onClick={logOut}>
-            LogOut
+          <Button>
+            <img src={cart} alt="" />
+            <span>1</span>
+          </Button>
+          <Button
+            cart
+            onClick={logOut}
+            style={{ color: "white", letterSpacing: "3px" }}
+          >
+            LOGOUT
           </Button>
         </Wrapper>
       </Card>
@@ -86,6 +94,9 @@ const Card = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 `;
 const Logo = styled.div`
   cursor: pointer;
@@ -94,22 +105,38 @@ const Logo = styled.div`
   }
 `;
 const Wrapper = styled.div`
-  width: 25vw;
+  min-width: 15vw;
   display: flex;
   justify-content: space-between;
 `;
 
 const Button = styled.button`
-  padding: 0.5rem;
+  padding: 0.1rem;
   border: none;
   border-radius: 3px;
-  width: 10vw;
+  min-width: 7vw;
   transition: all 0.2s ease;
+  position: relative;
+  cursor: pointer;
   background-color: ${(props) =>
-    props.cart ? `var(--second)` : `var(--third)`};
+    props.cart ? `var(--green)` : `var(--third)`};
   &:active {
     box-shadow: inset 0px 1px 1px var(--main), inset 1px 0px 1px var(--main),
       inset 0 -1px 2px var(--main), inset -1px 0 2px var(--main);
+  }
+  img {
+    width: 32px;
+    height: 32px;
+  }
+  span {
+    position: absolute;
+    top: 0.5vh;
+    right: 1vw;
+    background-color: var(--violet);
+    min-width: 17px;
+    padding: 1px;
+    color: var(--third);
+    border-radius: 3px;
   }
 `;
 const UL = styled.ul`

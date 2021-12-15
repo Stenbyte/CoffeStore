@@ -20,6 +20,7 @@ export default function Login() {
   let email;
   let password;
   let valid;
+
   console.log("app", app.automaticDataCollectionEnabled);
   // Changing LogIn || Sign UP
   const textHandler = () => {
@@ -43,7 +44,6 @@ export default function Login() {
           .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            console.log(user);
             // Dispatch token
             dispatch(
               userAction.logIn({
