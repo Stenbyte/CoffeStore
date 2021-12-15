@@ -4,11 +4,29 @@ import { useSearchParams } from "react-router-dom";
 import { category, filterByCategory } from "../../data";
 import minus from "../../img/minus.png";
 import plus from "../../img/plus.png";
+import { useDispatch } from "react-redux";
+import { productAction } from "../../store/productSlice";
 
 export default function Category() {
   let [searchParams] = useSearchParams();
   let search = searchParams.get("cat");
+  const dispatch = useDispatch();
 
+  const addProductHandler = (cat) => {
+    let { id, name, price, pic } = cat;
+
+    dispatch(
+      productAction.addProduct({
+        id: id,
+        name: name,
+        price: price,
+        qty: +1,
+        img: pic,
+      })
+    );
+  };
+
+  // Category filter function
   const list = React.useMemo(() => {
     if (!search) return category;
 
@@ -34,7 +52,12 @@ export default function Category() {
               ) : (
                 <>
                   <img src={minus} alt="" card="red" />
-                  <img src={plus} alt="" card="blue" />
+                  <img
+                    src={plus}
+                    alt=""
+                    card="blue"
+                    onClick={() => addProductHandler(cat)}
+                  />
                 </>
               )}
             </Right>

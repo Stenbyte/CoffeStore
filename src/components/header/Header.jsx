@@ -8,10 +8,13 @@ import { Link } from "react-router-dom";
 import { names } from "../../data";
 import { Outlet, useSearchParams } from "react-router-dom";
 import cart from "../../img/cart.png";
+import { useSelector } from "react-redux";
 
 export default function Header() {
   const auth = getAuth();
   const dispatch = useDispatch();
+  const product = useSelector((state) => state.product.product);
+  console.log(product);
   const logOut = () => {
     signOut(auth)
       .then(() => {
