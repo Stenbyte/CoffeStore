@@ -31,13 +31,14 @@ export default function Header() {
     sessionStorage.clear();
   };
   // Link styling if Active
-  function CatLink({ name, children }) {
+  function CatLink({ name, children, props }) {
     let [searchParams] = useSearchParams();
     let isActive = searchParams.get("cat") === name;
 
     return (
       <Link
         to={`/?cat=${name}`}
+        {...props}
         style={{ color: isActive ? `var(--violet)` : `var(--third)` }}
       >
         {children}
