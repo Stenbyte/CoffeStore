@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
 import { category, filterByCategory } from "../../data";
-import minus from "../../img/minus.png";
-import plus from "../../img/plus.png";
 import { useDispatch } from "react-redux";
 import { productAction } from "../../store/productSlice";
 
@@ -14,7 +12,7 @@ export default function Category() {
 
   const addProductHandler = (cat) => {
     let { id, name, price, pic } = cat;
-
+    // Dispatching product
     dispatch(
       productAction.addProduct({
         id: id,
@@ -108,16 +106,6 @@ const Right = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1rem 0 0;
-
-  img {
-    width: 3rem;
-    cursor: pointer;
-    height: 3rem;
-    transition: all 0.2s ease;
-    &:active {
-      filter: drop-shadow(0 0 0.1rem var(--fifth));
-    }
-  }
 `;
 const Button = styled.button`
   padding: 0.7rem;
@@ -132,12 +120,3 @@ const Button = styled.button`
     box-shadow: 1px 0 1px var(--second), -1px 0 1px var(--second);
   }
 `;
-{
-  /* <img src={minus} alt="" card="red" />
-<img
-  src={plus}
-  alt=""
-  card="blue"
-  onClick={() => addProductHandler(cat)}
-/> */
-}

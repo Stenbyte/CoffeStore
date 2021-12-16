@@ -9,12 +9,14 @@ import { names } from "../../data";
 import { Outlet, useSearchParams } from "react-router-dom";
 import cart from "../../img/cart.png";
 import { useSelector } from "react-redux";
+import Cart from "../cart/Cart";
 
 export default function Header() {
   const auth = getAuth();
   const dispatch = useDispatch();
+  // Fetching product
   const product = useSelector((state) => state.product);
-  console.log(product);
+
   const logOut = () => {
     signOut(auth)
       .then(() => {
@@ -59,7 +61,7 @@ export default function Header() {
         <Wrapper>
           <Button>
             <img src={cart} alt="" />
-            <span>1</span>
+            {product.qty === 0 ? "" : <span>{product.qty}</span>}
           </Button>
           <Button
             cart
@@ -68,6 +70,7 @@ export default function Header() {
           >
             LOGOUT
           </Button>
+          <Cart />
         </Wrapper>
       </Card>
       <Slider />
@@ -112,6 +115,7 @@ const Wrapper = styled.div`
   min-width: 15vw;
   display: flex;
   justify-content: space-between;
+  position: relative;
 `;
 
 const Button = styled.button`
@@ -150,7 +154,7 @@ const UL = styled.ul`
   width: 45vw;
   margin: 0.3rem 0 1rem 1rem;
   padding: 1rem;
-  border-radius: 10px;
+  border-radius: 1px;
   list-style-type: none;
   position: relative;
   background-color: var(--second);
