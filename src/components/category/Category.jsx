@@ -20,7 +20,6 @@ export default function Category() {
         id: id,
         name: name,
         price: price,
-        qty: +1,
         img: pic,
       })
     );
@@ -43,7 +42,7 @@ export default function Category() {
                 {cat.name.slice(0, 1).toUpperCase()}
                 {cat.name.slice(1)}
               </h3>
-              <p>Price: {cat.price}</p>
+              <p>Price: {cat.price}$</p>
               <p>Quantity: {cat.qty}</p>
             </Left>
             <Right>
@@ -51,13 +50,9 @@ export default function Category() {
                 <p>Sorry you can't add this product</p>
               ) : (
                 <>
-                  <img src={minus} alt="" card="red" />
-                  <img
-                    src={plus}
-                    alt=""
-                    card="blue"
-                    onClick={() => addProductHandler(cat)}
-                  />
+                  <Button type="button" onClick={() => addProductHandler(cat)}>
+                    Add to Cart
+                  </Button>
                 </>
               )}
             </Right>
@@ -124,3 +119,25 @@ const Right = styled.div`
     }
   }
 `;
+const Button = styled.button`
+  padding: 0.7rem;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--green);
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  &:active {
+    box-shadow: 1px 0 1px var(--second), -1px 0 1px var(--second);
+  }
+`;
+{
+  /* <img src={minus} alt="" card="red" />
+<img
+  src={plus}
+  alt=""
+  card="blue"
+  onClick={() => addProductHandler(cat)}
+/> */
+}

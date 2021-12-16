@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   product: [],
+  qty: 0,
+  totalPrice: 0,
 };
 
 export const prooductSlice = createSlice({
@@ -9,17 +11,24 @@ export const prooductSlice = createSlice({
   reducers: {
     addProduct: (state, action) => {
       const newProduct = action.payload;
-      const status = state.product.find((pro) => pro.id === newProduct.id);
-      console.log(newProduct);
-      if (!status) {
+      const existingProduct = state.product.find(
+        (pro) => pro.id === newProduct.id
+      );
+
+      if (!existingProduct) {
         state.product.push({
-          id: action.payload.id,
-          name: action.payload.name,
-          price: action.payload.price,
-          qty: action.payload.qty,
-          img: action.payload.img,
+          id: newProduct.id,
+          name: newProduct.name,
+          price: +newProduct.price,
+          qty: 1,
+          img: newProduct.img,
         });
+      } else {
+        existingProduct.qty = existingProduct.qty + 1;
+        existingProduct.price = existingProduct.price + newProduct.price;
       }
+      state.qty = state.qty + 1;
+      state.totalPrice = state.totalPrice + newProduct.price;
     },
   },
 });

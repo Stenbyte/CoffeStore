@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 export default function Header() {
   const auth = getAuth();
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.product.product);
+  const product = useSelector((state) => state.product);
   console.log(product);
   const logOut = () => {
     signOut(auth)
@@ -123,7 +123,7 @@ const Button = styled.button`
   position: relative;
   cursor: pointer;
   background-color: ${(props) =>
-    props.cart ? `var(--green)` : `var(--third)`};
+    props.cart ? `var(--second)` : `var(--third)`};
   &:active {
     box-shadow: inset 0px 1px 1px var(--main), inset 1px 0px 1px var(--main),
       inset 0 -1px 2px var(--main), inset -1px 0 2px var(--main);
