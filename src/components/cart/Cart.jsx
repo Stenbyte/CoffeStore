@@ -10,17 +10,24 @@ export default function Cart() {
 
   return (
     <Box>
-      {product.length === 0 ? (
+      {totalPrice === 0 ? (
         <Typography empty>Empty Cart. Start by adding products</Typography>
       ) : (
         product.map((product) => <Product product={product} key={product.id} />)
       )}
       <Right>
-        <Typography1>
-          Total:
-          <span>{totalPrice}$</span>
-        </Typography1>
-        <Button type="submit">CHECKOUT</Button>
+        {totalPrice === 0 ? (
+          ""
+        ) : (
+          <>
+            <Typography1>
+              Total:
+              <span>{totalPrice}$</span>
+            </Typography1>
+
+            <Button type="submit">CHECKOUT</Button>
+          </>
+        )}
       </Right>
     </Box>
   );
