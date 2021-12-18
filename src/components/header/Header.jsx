@@ -1,14 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { getAuth, signOut } from "firebase/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../store/userSlice";
+import { uiAction } from "../../store/uiSlice";
 import Slider from "../slider/Slider";
 import { Link } from "react-router-dom";
 import { names } from "../../data";
 import { Outlet, useSearchParams } from "react-router-dom";
-import cart from "../../img/cart.png";
-import { useSelector } from "react-redux";
+import cartImg from "../../img/cart.png";
+
 import Cart from "../cart/Cart";
 
 export default function Header() {
@@ -16,7 +17,11 @@ export default function Header() {
   const dispatch = useDispatch();
   // Fetching product
   const product = useSelector((state) => state.product);
-
+  // Cart display state
+  const showCart = useSelector((state) => state.ui.showCart);
+  const showCartHandler = () => {
+    dispatch(uiAction.showCart());
+  };
   const logOut = () => {
     signOut(auth)
       .then(() => {
@@ -59,8 +64,8 @@ export default function Header() {
           </Link>
         </Logo>
         <Wrapper>
-          <Button>
-            <img src={cart} alt="" />
+          <Button onClick={showCartHandler}>
+            <img src={cartImg} alt="" />
             {product.qty === 0 ? "" : <span>{product.qty}</span>}
           </Button>
           <Button
@@ -70,7 +75,7 @@ export default function Header() {
           >
             LOGOUT
           </Button>
-          <Cart />
+          {showCart && <Cart />}
         </Wrapper>
       </Card>
       <Slider />
