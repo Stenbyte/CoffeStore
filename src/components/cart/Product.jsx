@@ -6,9 +6,9 @@ import { useDispatch } from "react-redux";
 import { productAction } from "../../store/productSlice";
 export default function Product({ product }) {
   const dispatch = useDispatch();
+  let { id, name, price, pic } = product;
   // Add product
-  const addProductHandler = (cat) => {
-    let { id, name, price, pic } = cat;
+  const addProductHandler = (product) => {
     // Dispatching product
     dispatch(
       productAction.addProduct({
@@ -20,17 +20,8 @@ export default function Product({ product }) {
     );
   };
   // Remove product
-  const removeProductHandler = (cat) => {
-    console.log(cat);
-    let { id, name, price, pic } = cat;
-    dispatch(
-      productAction.removeProduct({
-        id: id,
-        name: name,
-        price: price,
-        img: pic,
-      })
-    );
+  const removeProductHandler = () => {
+    dispatch(productAction.removeProduct(id));
   };
   return (
     <Card key={product.id}>
@@ -40,12 +31,7 @@ export default function Product({ product }) {
           <h3>{product.name}</h3>
           <p>Quantity: {product.qty}</p>
           <Btn>
-            <img
-              src={minus}
-              alt=""
-              card="red"
-              onClick={() => removeProductHandler(product)}
-            />
+            <img src={minus} alt="" card="red" onClick={removeProductHandler} />
             <img
               src={plus}
               alt=""

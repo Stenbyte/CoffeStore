@@ -22,29 +22,32 @@ export const prooductSlice = createSlice({
           price: newProduct.price,
           qty: 1,
           img: newProduct.img,
+          totalPrice: 0,
         });
       } else {
         // Updating existind product
         existingProduct.qty = existingProduct.qty + 1;
-        existingProduct.price = existingProduct.price + newProduct.price;
+        existingProduct.totalPrice =
+          existingProduct.totalPrice + existingProduct.price;
       }
       // Updating totalPrice & qty
       state.qty = state.qty + 1;
       state.totalPrice = state.totalPrice + newProduct.price;
     },
     removeProduct: (state, action) => {
-      const newProduct = action.payload;
-      const existingProduct = state.product.find(
-        (prod) => prod.id === newProduct.id
-      );
-      if (existingProduct.qty > 1) {
-        existingProduct.qty = existingProduct.qty - 1;
-        existingProduct.price = existingProduct.price - newProduct.price;
-        state.qty = state.qty - 1;
-        state.totalPrice = state.totalPrice - newProduct.price;
+      const id = action.payload;
+      const existingProduct = state.product.find((prod) => prod.id === id);
+      if (existingProduct.qty === 1) {
+        state.product = state.product.filter((prod) => prod.id !== id);
       } else {
-        state.product.filter((product) => product.id !== newProduct.id);
+        // Updating existing qty & totalPrice
+        existingProduct.qty = existingProduct.qty - 1;
+        existingProduct.totalPrice =
+          existingProduct.totalPrice - existingProduct.price;
       }
+      // Updating total qty and totalPrice
+      state.qty = state.qty - 1;
+      state.totalPrice = state.totalPrice - existingProduct.price;
     },
   },
 });
