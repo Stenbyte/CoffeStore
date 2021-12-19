@@ -9,6 +9,11 @@ export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
+    replaceCart: (state, action) => {
+      state.product = action.payload.product;
+      state.qty = action.payload.qty;
+      state.totalPrice = action.payload.totalPrice;
+    },
     addProduct: (state, action) => {
       const newProduct = action.payload;
       const existingProduct = state.product.find(

@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Product from "./Product";
 export default function Cart() {
   // Fetching product details
   const product = useSelector((state) => state.product.product);
-  // Fetchin totalPrice
+  // Fetching totalPrice
   const totalPrice = useSelector((state) => state.product.totalPrice);
 
   return (

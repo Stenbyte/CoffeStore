@@ -10,7 +10,18 @@ function App() {
   // let Api = process.env.REACT_APP_API_KEY;
   const [user, setUser] = useState(true);
   const load = useSelector((state) => state.user.load);
-
+  // Fetching  productSlice data for Firebase
+  const data = useSelector((state) => state.product);
+  // Sending to Firebase
+  useEffect(() => {
+    fetch(
+      "https://coffeestore-2ff4a-default-rtdb.europe-west1.firebasedatabase.app/data.json",
+      {
+        method: "PUT",
+        body: JSON.stringify(data),
+      }
+    );
+  }, [data]);
   useEffect(() => {
     // Checking user from session storage
     const user1 = sessionStorage.getItem("load");
