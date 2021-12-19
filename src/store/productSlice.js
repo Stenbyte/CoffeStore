@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { uiAction } from "./uiSlice";
 const initialState = {
   product: [],
   qty: 0,
@@ -56,5 +57,89 @@ export const productSlice = createSlice({
     },
   },
 });
+
+// Sendind productdata to firebase
+export const sendProductData = (data) => {
+  return async (dispatch) => {
+    dispatch(
+      uiAction.errorNot({
+        status: null,
+        message: null,
+      })
+    );
+    const sendData = async () => {
+      const response = await fetch(
+        "https://coffeestore-2ff4a-default-rtdb.europe-west1.firebasedatabase.app/data.json",
+        {
+          method: "PUT",
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (!response.ok) {
+        // If response not ok
+        dispatch(
+          uiAction.errorNot({
+            status: response.status,
+            message: response.statusText,
+          })
+        );
+      }
+    };
+    try {
+      await sendData();
+    } catch (err) {
+      // Handling errors
+      dispatch(
+        uiAction.errorNot({
+          status: "",
+          message: err.message,
+        })
+      );
+    }
+  };
+};
+
+// Fetching data
+export const fetchProductData = () => {
+  return async (dispatch) => {
+    dispatch(
+      uiAction.errorNot({
+        status: null,
+        message: null,
+      })
+    );
+    const fetchData = async () => {
+      const response = await fetch(
+        "https://coffeestore-2ff4a-default-rtdb.europe-west1.firebasedatabase.app/data.json"
+      );
+
+      if (!response.ok) {
+        // If response not ok
+        dispatch(
+          uiAction.errorNot({
+            status: response.status,
+            message: response.statusText,
+          })
+        );
+      }
+      const productData = await response.json();
+      return productData;
+    };
+    try {
+      const Data = await fetchData();
+      dispatch(productAction.replaceCart(Data));
+    } catch (err) {
+      // Handling errors
+      dispatch(
+        uiAction.errorNot({
+          status: "",
+          message: err.message,
+        })
+      );
+    }
+  };
+};
+
 export const productAction = productSlice.actions;
 export default productSlice.reducer;

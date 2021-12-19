@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import Category from "./components/category/Category";
-import { uiAction } from "./store/uiSlice";
+import { sendProductData, fetchProductData } from "./store/productSlice";
 
 let isInitial = true;
 
@@ -19,49 +19,17 @@ function App() {
   const data = useSelector((state) => state.product);
   // Sending to Firebase
   useEffect(() => {
-    const sendProductData = async () => {
-      dispatch(
-        uiAction.errorNot({
-          status: null,
-          message: null,
-        })
-      );
-      const response = await fetch(
-        "https://coffeestore-2ff4a-default-rtdb.europe-west1.firebasedatabase.app/data.json",
-        {
-          method: "PUT",
-          body: JSON.stringify(data),
-        }
-      );
-
-      if (!response.ok) {
-        // If response not ok
-        dispatch(
-          uiAction.errorNot({
-            status: response.status,
-            message: response.statusText,
-          })
-        );
-      }
-    };
-
     // Stops sendProductData on reload to prevent data to be overwritten
     if (isInitial) {
       isInitial = false;
       return;
     }
-
-    sendProductData().catch((error) => {
-      // Handling errors
-      dispatch(
-        uiAction.errorNot({
-          status: "",
-          message: error.message,
-        })
-      );
-    });
+    dispatch(sendProductData(data));
   }, [data, dispatch]);
-
+  // Fetching Data from firebase
+  useEffect(() => {
+    dispatch(fetchProductData());
+  }, [dispatch]);
   // User check
   useEffect(() => {
     // Checking user from session storage
