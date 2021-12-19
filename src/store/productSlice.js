@@ -128,7 +128,13 @@ export const fetchProductData = () => {
     };
     try {
       const Data = await fetchData();
-      dispatch(productAction.replaceCart(Data));
+      dispatch(
+        productAction.replaceCart({
+          product: Data.product || [],
+          qty: Data.qty,
+          totalPrice: Data.totalPrice,
+        })
+      );
     } catch (err) {
       // Handling errors
       dispatch(
