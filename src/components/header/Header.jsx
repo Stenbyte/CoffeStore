@@ -11,6 +11,7 @@ import { Outlet, useSearchParams } from "react-router-dom";
 import cartImg from "../../img/cart.png";
 
 import Cart from "../cart/Cart";
+import Notification from "../notification/Notification";
 
 export default function Header() {
   const auth = getAuth();
@@ -19,9 +20,13 @@ export default function Header() {
   const product = useSelector((state) => state.product);
   // Cart display state
   const showCart = useSelector((state) => state.ui.showCart);
+  // Notification display state
+  const NotificationError = useSelector((state) => state.ui.notification);
+  // Display Cart
   const showCartHandler = () => {
     dispatch(uiAction.showCart());
   };
+  // LogOut
   const logOut = () => {
     signOut(auth)
       .then(() => {
@@ -57,6 +62,7 @@ export default function Header() {
   }
   return (
     <Container>
+      {NotificationError?.message && <Notification />}
       <Card>
         <Logo>
           <Link to="/">
