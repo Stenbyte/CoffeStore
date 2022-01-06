@@ -13,6 +13,9 @@ import { userAction } from "../../store/userSlice";
 
 export default function Login() {
   const [text, setText] = useState(true);
+  // Error message display
+  const [load, setLoad] = useState("");
+  //
   const dispatch = useDispatch();
   const mailRef = useRef();
   const passwordRef = useRef();
@@ -57,7 +60,9 @@ export default function Login() {
           })
           .catch((error) => {
             const errorMessage = error.message;
-            alert(errorMessage);
+
+            setLoad(errorMessage);
+            // alert(errorMessage);
           });
         // Creating sessionStorage for user
         setPersistence(auth, browserSessionPersistence)
@@ -67,7 +72,8 @@ export default function Login() {
           .catch((error) => {
             // Handle Errors here.
             const errorMessage = error.message;
-            alert(errorMessage);
+            // alert(errorMessage);
+            setLoad(errorMessage);
           });
       } else if (valid) {
         //creating new account
@@ -88,15 +94,22 @@ export default function Login() {
           })
           .catch((error) => {
             const errorMessage = error.message;
-            alert(errorMessage);
+            // alert(errorMessage);
+
+            setLoad(errorMessage);
             // ..
           });
       }
     }
   };
+  const ErrorComponent = () => {
+    return <ErrComp>{load}</ErrComp>;
+  };
+
   return (
     <Card>
       <Wrap>
+        <ErrorComponent />
         <Form onSubmit={submitHandler}>
           <Title>{text ? "LOGIN" : "SIGN UP"}</Title>
           <Label htmlFor="name">Email*</Label>
@@ -105,6 +118,7 @@ export default function Login() {
             placeholder="Enter email"
             id="name"
             ref={mailRef}
+            onChange={(e) => setLoad("")}
           />
           <Label htmlFor="pas">Password*</Label>
           <input
@@ -113,6 +127,7 @@ export default function Login() {
             id="pas"
             minLength="5"
             ref={passwordRef}
+            onChange={(e) => setLoad("")}
           />
           <Title1 type="submit">{text ? "LOG IN" : "SIGN UP"}</Title1>
           <Title1 green col onClick={textHandler} type="button">
@@ -176,5 +191,15 @@ const Title1 = styled.button`
   width: 15vw;
   padding: 0.7rem;
   border: none;
+  cursor: pointer;
   color: ${(props) => (props.col ? `var(--third)` : `var(--main)`)};
+`;
+//Error Handler
+const ErrComp = styled.div`
+  color: white;
+  background-color: var(--fifth);
+  min-width: 10rem;
+  max-width: 30rem;
+  position: absolute;
+  top: 3rem;
 `;

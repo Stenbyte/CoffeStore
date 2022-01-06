@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getAuth, signOut } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +23,8 @@ export default function Header() {
   // Notification display state
   const NotificationError = useSelector((state) => state.ui.notification);
   const NotError = useSelector((state) => state.product.QtyError);
-
+  // Getting user
+  const [user, setUser] = useState("");
   // Display Cart
   const showCartHandler = () => {
     dispatch(uiAction.showCart());
@@ -62,6 +63,14 @@ export default function Header() {
       </Link>
     );
   }
+  useEffect(() => {
+    let data = sessionStorage.getItem(
+      "firebase:authUser:AIzaSyBwn84bG5mccscURCBdFJJ8c10Y9ee5WsI:[DEFAULT]"
+    );
+
+    setUser(JSON.parse(data));
+  }, []);
+  console.log(user);
   return (
     <Container>
       {NotificationError?.message && <Notification />}
@@ -73,6 +82,7 @@ export default function Header() {
           </Link>
         </Logo>
         <Wrapper>
+          <p style={{ color: "white" }}>Welcome {user.email}</p>
           <Button onClick={showCartHandler}>
             <img src={cartImg} alt="" />
             {product.qty === 0 ? "" : <span>{product.qty}</span>}
@@ -127,8 +137,9 @@ const Logo = styled.div`
   }
 `;
 const Wrapper = styled.div`
-  min-width: 15vw;
+  min-width: 27vw;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   position: relative;
 `;
@@ -138,6 +149,7 @@ const Button = styled.button`
   border: none;
   border-radius: 3px;
   min-width: 7vw;
+  height: 2.5rem;
   transition: all 0.2s ease;
   position: relative;
   cursor: pointer;
