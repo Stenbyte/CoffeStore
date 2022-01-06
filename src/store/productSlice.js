@@ -34,7 +34,7 @@ export const productSlice = createSlice({
           price: newProduct.price,
           qty: 1,
           img: newProduct.img,
-          totalPrice: 0,
+          totalPrice: newProduct.price,
           Quantity: newProduct.Quantity,
         });
       } else {

@@ -20,6 +20,22 @@ export default function Cart() {
           ""
         ) : (
           <>
+            <h3>Products preview</h3>
+            <div style={{ display: "flex", width: "15rem", gap: "5rem" }}>
+              <p>Name</p>
+              <p>Total price</p>
+            </div>
+            {product.map((product) => (
+              <RightBox key={product.id}>
+                <div>
+                  <p>
+                    {product.name}({product.price}$){" "}
+                  </p>
+
+                  <p>{product.totalPrice}$</p>
+                </div>
+              </RightBox>
+            ))}
             <Typography1>
               Total:
               <span>{totalPrice}$</span>
@@ -37,7 +53,7 @@ const Box = styled.div`
   position: absolute;
   top: 4rem;
   right: 1rem;
-  width: 37rem;
+  width: 40rem;
   min-height: 5rem;
   max-height: 30rem;
   border-radius: 5px;
@@ -45,8 +61,8 @@ const Box = styled.div`
   overflow: auto;
 `;
 const Right = styled.div`
-  width: 15rem;
-  height: 10rem;
+  width: 19rem;
+  min-height: 10rem;
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -56,9 +72,20 @@ const Right = styled.div`
   justify-content: center;
   gap: 1rem;
 `;
+const RightBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 15rem;
+  div {
+    display: flex;
+    width: 17rem;
+    p {
+      width: 10rem;
+    }
+  }
+`;
 const Typography = styled.p`
   padding: 1rem;
-
   color: ${(props) => (props.empty ? "var(--fifth)" : "var(--main)")};
   font-weight: 500;
   font-size: 1.5rem;
