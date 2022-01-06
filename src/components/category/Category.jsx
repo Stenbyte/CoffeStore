@@ -11,7 +11,8 @@ export default function Category() {
   const dispatch = useDispatch();
 
   const addProductHandler = (cat) => {
-    let { id, name, price, pic } = cat;
+    let { id, name, price, pic, qty } = cat;
+
     // Dispatching product
     dispatch(
       productAction.addProduct({
@@ -19,6 +20,7 @@ export default function Category() {
         name: name,
         price: price,
         img: pic,
+        Quantity: qty,
       })
     );
   };

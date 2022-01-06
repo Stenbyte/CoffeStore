@@ -4,12 +4,16 @@ const initialState = {
   product: [],
   qty: 0,
   totalPrice: 0,
+  QtyError: false,
 };
 
 export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
+    closeErr: (state) => {
+      state.QtyError = !state.QtyError;
+    },
     replaceCart: (state, action) => {
       state.product = action.payload.product;
       state.qty = action.payload.qty;
@@ -17,9 +21,11 @@ export const productSlice = createSlice({
     },
     addProduct: (state, action) => {
       const newProduct = action.payload;
+
       const existingProduct = state.product.find(
         (pro) => pro.id === newProduct.id
       );
+
       // If new product
       if (!existingProduct) {
         state.product.push({
@@ -29,14 +35,20 @@ export const productSlice = createSlice({
           qty: 1,
           img: newProduct.img,
           totalPrice: 0,
+          Quantity: newProduct.Quantity,
         });
       } else {
+        if (existingProduct?.Quantity <= existingProduct?.qty) {
+          state.QtyError = true;
+          return;
+        }
         // Updating existind product
-        existingProduct.qty = existingProduct.qty + 1;
+        existingProduct.qty = existingProduct?.qty + 1;
         existingProduct.totalPrice =
-          existingProduct.totalPrice + existingProduct.price;
+          existingProduct?.totalPrice + existingProduct?.price;
       }
       // Updating totalPrice & qty
+      state.QtyError = false;
       state.qty = state.qty + 1;
       state.totalPrice = state.totalPrice + newProduct.price;
     },
@@ -53,6 +65,7 @@ export const productSlice = createSlice({
       }
       // Updating total qty and totalPrice
       state.qty = state.qty - 1;
+      state.QtyError = false;
       state.totalPrice = state.totalPrice - existingProduct.price;
     },
   },
@@ -63,8 +76,8 @@ export const sendProductData = (data) => {
   return async (dispatch) => {
     dispatch(
       uiAction.errorNot({
-        status: null,
-        message: null,
+        status: "ok",
+        message: "",
       })
     );
     const sendData = async () => {

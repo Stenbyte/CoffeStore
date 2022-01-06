@@ -9,9 +9,9 @@ import { Link } from "react-router-dom";
 import { names } from "../../data";
 import { Outlet, useSearchParams } from "react-router-dom";
 import cartImg from "../../img/cart.png";
-
 import Cart from "../cart/Cart";
 import Notification from "../notification/Notification";
+import Not from "../notification/Not";
 
 export default function Header() {
   const auth = getAuth();
@@ -22,6 +22,8 @@ export default function Header() {
   const showCart = useSelector((state) => state.ui.showCart);
   // Notification display state
   const NotificationError = useSelector((state) => state.ui.notification);
+  const NotError = useSelector((state) => state.product.QtyError);
+
   // Display Cart
   const showCartHandler = () => {
     dispatch(uiAction.showCart());
@@ -63,6 +65,7 @@ export default function Header() {
   return (
     <Container>
       {NotificationError?.message && <Notification />}
+
       <Card>
         <Logo>
           <Link to="/">
@@ -83,6 +86,7 @@ export default function Header() {
           </Button>
           {showCart && <Cart />}
         </Wrapper>
+        {NotError && <Not />}
       </Card>
       <Slider />
       <UL>

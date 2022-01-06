@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { data } from "../../data";
 import left from "../../img/left-arrow.png";
 import right from "../../img/arrow-right.png";
-export default function Slider() {
+export default React.memo(Slider);
+function Slider() {
   const [slide, setSlide] = useState(0);
   // Slider movement
   const slideHandler = (way) => {
