@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   showCart: false,
+  switchCheck: false,
   notification: null,
+  confirmPurchase: false,
 };
 
 const uiSlice = createSlice({
@@ -17,6 +19,12 @@ const uiSlice = createSlice({
     },
     showCart: (state) => {
       state.showCart = !state.showCart;
+    },
+    switchCheck: (state) => {
+      state.switchCheck = !state.switchCheck;
+    },
+    confirm: (state) => {
+      state.confirmPurchase = !state.confirmPurchase;
     },
   },
 });

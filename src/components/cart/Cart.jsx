@@ -1,13 +1,20 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import Checkout from "../checkout/Checkout";
 import Product from "./Product";
+import { uiAction } from "../../store/uiSlice";
 export default function Cart() {
   // Fetching product details
   const product = useSelector((state) => state.product.product);
   // Fetching totalPrice
   const totalPrice = useSelector((state) => state.product.totalPrice);
-
+  // checkout state change
+  const checkout = useSelector((state) => state.ui.switchCheck);
+  const dispatch = useDispatch();
+  const SwitchCheck = () => {
+    dispatch(uiAction.switchCheck());
+  };
   return (
     <Box>
       {totalPrice === 0 ? (
@@ -20,28 +27,36 @@ export default function Cart() {
           ""
         ) : (
           <>
-            <h3>Products preview</h3>
-            <div style={{ display: "flex", width: "15rem", gap: "5rem" }}>
-              <p>Name</p>
-              <p>Total price</p>
-            </div>
-            {product.map((product) => (
-              <RightBox key={product.id}>
-                <div>
-                  <p>
-                    {product.name}({product.price}$){" "}
-                  </p>
-
-                  <p>{product.totalPrice}$</p>
+            {checkout === false ? (
+              <>
+                <h3>Products preview</h3>
+                <div style={{ display: "flex", width: "15rem", gap: "5rem" }}>
+                  <p>Name</p>
+                  <p>Total price</p>
                 </div>
-              </RightBox>
-            ))}
-            <Typography1>
-              Total:
-              <span>{totalPrice}$</span>
-            </Typography1>
+                {product.map((product) => (
+                  <RightBox key={product.id}>
+                    <div>
+                      <p>
+                        {product.name}({product.price}$){" "}
+                      </p>
 
-            <Button type="submit">CHECKOUT</Button>
+                      <p>{product.totalPrice}$</p>
+                    </div>
+                  </RightBox>
+                ))}
+                <Typography1>
+                  Total:
+                  <span>{totalPrice}$</span>
+                </Typography1>
+
+                <Button type="button" onClick={SwitchCheck}>
+                  ORDER
+                </Button>
+              </>
+            ) : (
+              <Checkout />
+            )}
           </>
         )}
       </Right>

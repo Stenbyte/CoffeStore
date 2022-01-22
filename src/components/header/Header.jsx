@@ -12,6 +12,7 @@ import cartImg from "../../img/cart.png";
 import Cart from "../cart/Cart";
 import Notification from "../notification/Notification";
 import Not from "../notification/Not";
+import Modal from "../checkout/Modal";
 
 export default function Header() {
   const auth = getAuth();
@@ -20,6 +21,7 @@ export default function Header() {
   const product = useSelector((state) => state.product);
   // Cart display state
   const showCart = useSelector((state) => state.ui.showCart);
+  const showConfirm = useSelector((state) => state.ui.confirmPurchase);
   // Notification display state
   const NotificationError = useSelector((state) => state.ui.notification);
   const NotError = useSelector((state) => state.product.QtyError);
@@ -70,11 +72,11 @@ export default function Header() {
 
     setUser(JSON.parse(data));
   }, []);
-  console.log(user);
+
   return (
     <Container>
       {NotificationError?.message && <Notification />}
-
+      {showConfirm && <Modal />}
       <Card>
         <Logo>
           <Link to="/">
@@ -117,7 +119,9 @@ export default function Header() {
   );
 }
 
-const Container = styled.div``;
+const Container = styled.div`
+  position: relative;
+`;
 
 const Card = styled.div`
   background-color: var(--main);
