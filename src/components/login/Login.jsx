@@ -15,6 +15,7 @@ export default function Login() {
   const [text, setText] = useState(true);
   // Error message display
   const [load, setLoad] = useState("");
+  const [show, setShow] = useState(false);
   //
   const dispatch = useDispatch();
   const mailRef = useRef();
@@ -134,6 +135,14 @@ export default function Login() {
             {text ? "CREATE ACCOUNT" : "LOG IN"}
           </Title1>
         </Form>
+        <Cred>Credentials:</Cred>
+        <Credentials
+          className={show ? "showCard" : ""}
+          onClick={(e) => setShow(!show)}
+        >
+          <p> email: 2@2.com</p>
+          <p> password: 123456</p>
+        </Credentials>
       </Wrap>
     </Card>
   );
@@ -155,6 +164,7 @@ const Wrap = styled.div`
   justify-content: space-evenly;
   border-radius: 3px;
   height: 70vh;
+  position: relative;
 `;
 const Form = styled.form`
   display: flex;
@@ -201,5 +211,40 @@ const ErrComp = styled.div`
   min-width: 10rem;
   max-width: 30rem;
   position: absolute;
-  top: 3rem;
+  top: -3rem;
+`;
+const Cred = styled.h3`
+  position: absolute;
+  color: white;
+  top: 5%;
+  right: 2%;
+  font-weight: 300;
+`;
+const Credentials = styled.div`
+  position: absolute;
+  top: 10%;
+  right: 0%;
+  background-color: var(--green);
+  width: 0.5rem;
+  height: 5rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 1s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  p {
+    display: none;
+    color: white;
+  }
+
+  &.showCard {
+    width: 13rem;
+    right: 0%;
+    padding: 1rem;
+    p {
+      display: block;
+    }
+  }
 `;
